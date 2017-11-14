@@ -6,8 +6,7 @@ import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 
 
 /**
- * This is the main class of an extension, is the entry point from which configurations, connection providers, operations
- * and sources are going to be declared.
+ * Allows to evaluate dynamic DataWeave expressions by supplying the DW script and a set of bindings.
  */
 @Extension(name = "Dynamic Evaluator")
 @Operations(DynamicEvaluatorOperations.class)

@@ -16,13 +16,25 @@ import java.util.Map;
 import javax.inject.Inject;
 
 /**
- * This class is a container for operations, every public method in this class will be taken as an extension operation.
+ * Evaluation operations
+ *
+ * @since 1.0
  */
 public class DynamicEvaluatorOperations {
 
   @Inject
   private ExpressionLanguage expressionLanguage;
 
+  /**
+   * Evaluates the DW script given in the {@code expression}, which is another DW expression which returns the actual
+   * transformation to be evaluated.
+   * <p>
+   * Optionally, you can also provide parameters to that transformation
+   *
+   * @param expression an expression containing the transformation to be evaluated
+   * @param parameters the transformation bindings
+   * @return the transformation result
+   */
   @OutputResolver(output = ObjectOutputTypeResolver.class)
   public Result<Object, Void> evaluateDynamic(@Expression(REQUIRED) String expression,
                                               @Optional @NullSafe @Content Map<String, Object> parameters) {

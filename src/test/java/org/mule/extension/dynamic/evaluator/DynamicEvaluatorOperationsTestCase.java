@@ -8,6 +8,8 @@ import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.api.streaming.bytes.CursorStreamProvider;
 import org.mule.runtime.core.api.util.IOUtils;
 
+import java.io.ByteArrayInputStream;
+
 import org.junit.Test;
 
 public class DynamicEvaluatorOperationsTestCase extends MuleArtifactFunctionalTestCase {
@@ -32,6 +34,7 @@ public class DynamicEvaluatorOperationsTestCase extends MuleArtifactFunctionalTe
   public void expressionWithSimpleParameters() throws Exception {
     TypedValue<String> result = flowRunner("expressionWithSimpleParameters")
         .withVariable("expression", "'hello ' ++ name")
+        .withVariable("name", "world")
         .run().getMessage().getPayload();
     assertThat(result.getValue(), is("hello world"));
   }
@@ -48,5 +51,22 @@ public class DynamicEvaluatorOperationsTestCase extends MuleArtifactFunctionalTe
 
     assertThat(IOUtils.toString(result.getValue()), is("\"Hello world\""));
     assertThat(result.getDataType().getMediaType().matches(APPLICATION_JSON), is(true));
+  }
+
+  @Test
+  public void expressionIsStream() throws Exception {
+    TypedValue<String> result = flowRunner("staticExpression")
+        .withVariable("expression", new ByteArrayInputStream("'hello ' ++ 'world'".getBytes()))
+        .run().getMessage().getPayload();
+    assertThat(result.getValue(), is("hello world"));
+  }
+
+  @Test
+  public void parameterIsStream() throws Exception {
+    TypedValue<String> result = flowRunner("expressionWithSimpleParameters")
+        .withVariable("expression", "'hello ' ++ name")
+        .withVariable("name", new ByteArrayInputStream("world".getBytes()))
+        .run().getMessage().getPayload();
+    assertThat(result.getValue(), is("hello world"));
   }
 }

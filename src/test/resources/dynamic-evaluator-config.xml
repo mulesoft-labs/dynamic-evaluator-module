@@ -10,7 +10,7 @@
 
     <flow name="expressionWithSimpleParameters">
         <dynamic-evaluator:evaluate-dynamic expression="#[vars.expression]">
-            <dynamic-evaluator:parameters>#[{'name': 'world'}]</dynamic-evaluator:parameters>
+            <dynamic-evaluator:parameters>#[{'name': vars.name}]</dynamic-evaluator:parameters>
         </dynamic-evaluator:evaluate-dynamic>
     </flow>
 
