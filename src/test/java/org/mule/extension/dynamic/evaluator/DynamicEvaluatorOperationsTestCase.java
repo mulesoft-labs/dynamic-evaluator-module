@@ -22,19 +22,29 @@ public class DynamicEvaluatorOperationsTestCase extends MuleArtifactFunctionalTe
 
   @Test
   public void staticExpression() throws Exception {
-    TypedValue<String> result = flowRunner("staticExpression").run().getMessage().getPayload();
+    TypedValue<String> result = flowRunner("staticExpression")
+        .withVariable("expression", "'hello ' ++ 'world'")
+        .run().getMessage().getPayload();
     assertThat(result.getValue(), is("hello world"));
   }
 
   @Test
   public void expressionWithSimpleParameters() throws Exception {
-    TypedValue<String> result = flowRunner("expressionWithSimpleParameters").run().getMessage().getPayload();
+    TypedValue<String> result = flowRunner("expressionWithSimpleParameters")
+        .withVariable("expression", "'hello ' ++ name")
+        .run().getMessage().getPayload();
     assertThat(result.getValue(), is("hello world"));
   }
 
   @Test
   public void expressionWithCustomMediaType() throws Exception {
-    TypedValue<CursorStreamProvider> result = flowRunner("customMediaType").keepStreamsOpen().run().getMessage().getPayload();
+    String dw = "%dw 2.0\n"
+        + "output application/json\n"
+        + "---\n"
+        + "'Hello ' ++ 'world'";
+    TypedValue<CursorStreamProvider> result = flowRunner("customMediaType")
+        .withVariable("expression", dw)
+        .keepStreamsOpen().run().getMessage().getPayload();
 
     assertThat(IOUtils.toString(result.getValue()), is("\"Hello world\""));
     assertThat(result.getDataType().getMediaType().matches(APPLICATION_JSON), is(true));

@@ -1,13 +1,14 @@
 package org.mule.extension.dynamic.evaluator;
 
+import static org.mule.runtime.api.meta.ExpressionSupport.REQUIRED;
 import org.mule.runtime.api.el.BindingContext;
 import org.mule.runtime.api.el.ExpressionLanguage;
 import org.mule.runtime.api.metadata.TypedValue;
+import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.metadata.OutputResolver;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Optional;
-import org.mule.runtime.extension.api.annotation.param.display.Text;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 import java.util.Map;
@@ -23,8 +24,8 @@ public class DynamicEvaluatorOperations {
   private ExpressionLanguage expressionLanguage;
 
   @OutputResolver(output = ObjectOutputTypeResolver.class)
-  public Result<Object, Void> evaluateDynamic(@Text String expression,
-                                        @Optional @NullSafe @Content Map<String, Object> parameters) {
+  public Result<Object, Void> evaluateDynamic(@Expression(REQUIRED) String expression,
+                                              @Optional @NullSafe @Content Map<String, Object> parameters) {
 
     final BindingContext.Builder builder = BindingContext.builder();
     parameters.forEach((key, value) -> builder.addBinding(key, TypedValue.of(value)));

@@ -5,26 +5,17 @@
           http://www.mulesoft.org/schema/mule/dynamic-evaluator http://www.mulesoft.org/schema/mule/dynamic-evaluator/current/mule-dynamic-evaluator.xsd">
 
     <flow name="staticExpression">
-        <dynamic-evaluator:evaluate-dynamic>
-            <dynamic-evaluator:expression>'hello ' ++ 'world'</dynamic-evaluator:expression>
-        </dynamic-evaluator:evaluate-dynamic>
+        <dynamic-evaluator:evaluate-dynamic expression="#[vars.expression]" />
     </flow>
 
     <flow name="expressionWithSimpleParameters">
-        <dynamic-evaluator:evaluate-dynamic>
-            <dynamic-evaluator:expression>'hello ' ++ name</dynamic-evaluator:expression>
+        <dynamic-evaluator:evaluate-dynamic expression="#[vars.expression]">
             <dynamic-evaluator:parameters>#[{'name': 'world'}]</dynamic-evaluator:parameters>
         </dynamic-evaluator:evaluate-dynamic>
     </flow>
 
     <flow name="customMediaType">
-        <dynamic-evaluator:evaluate-dynamic>
-            <dynamic-evaluator:expression><![CDATA[
-                %dw 2.0
-                output application/json
-                ---
-                'Hello ' ++ 'world'
-            ]]></dynamic-evaluator:expression>
+        <dynamic-evaluator:evaluate-dynamic expression="#[vars.expression]">
             <dynamic-evaluator:parameters>#[{'name': 'world'}]</dynamic-evaluator:parameters>
         </dynamic-evaluator:evaluate-dynamic>
     </flow>
