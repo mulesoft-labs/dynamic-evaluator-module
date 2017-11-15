@@ -5,13 +5,7 @@ Allows to evaluate dynamic DataWeave expressions by supplying the DW script and 
 For example:
 
 ```
-<dynamic-evaluator:evaluate-dynamic>
-    <dynamic-evaluator:expression><![CDATA[
-        %dw 2.0
-        output application/json
-        ---
-        'Hello ' ++ 'world'
-    ]]></dynamic-evaluator:expression>
+ <dynamic-evaluator:evaluate-dynamic expression="#[vars.expression]">
     <dynamic-evaluator:parameters>#[{'name': 'world'}]</dynamic-evaluator:parameters>
 </dynamic-evaluator:evaluate-dynamic>
 ```
