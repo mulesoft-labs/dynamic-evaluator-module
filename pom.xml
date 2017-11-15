@@ -8,12 +8,12 @@
     <parent>
         <groupId>org.mule.extensions</groupId>
         <artifactId>mule-modules-parent</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.0-rc</version>
     </parent>
 
     <groupId>org.mule.modules.x</groupId>
     <artifactId>dynamic-evaluator</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-rc-SNAPSHOT</version>
     <packaging>mule-extension</packaging>
     <name>DynamicEvaluator Extension</name>
 
